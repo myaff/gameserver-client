@@ -62,7 +62,7 @@ function restore() {
   props.service.restore(props.world.worldName, props.backup.saveName)
     .then(data => {
       showAlert(data);
-      emit('restore')
+      emit('restore', props.world.worldName)
     })
     .finally(() => (isRestoring.value = false));
 }

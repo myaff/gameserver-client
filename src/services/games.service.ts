@@ -3,20 +3,20 @@ import { ApiService } from "./api.service";
 
 const GamesDetailsExtra: { [key: string]: Pick<GameDetailsDTO, 'logo' | 'keyart' | 'logoPosition'> } = {
   "346110": {
-    logo: '/src/assets/games/ark/logo-f.png',
-    keyart: '/src/assets/games/ark/keyart.jpg',
+    logo: '/games/ark/logo-f.png',
+    keyart: '/games/ark/keyart.jpg',
   },
   "892970": {
-    logo: '/src/assets/games/valheim/logo-f.svg',
-    keyart: '/src/assets/games/valheim/keyart.png',
+    logo: '/games/valheim/logo-f.svg',
+    keyart: '/games/valheim/keyart.png',
   },
   "322330": {
-    logo: '/src/assets/games/dst/logo-f.png',
-    keyart: '/src/assets/games/dst/keyart.jpeg',
+    logo: '/games/dst/logo-f.png',
+    keyart: '/games/dst/keyart.jpeg',
   },
   "1604030": {
-    logo: '/src/assets/games/vrising/logo-f.png',
-    keyart: '/src/assets/games/vrising/keyart.webp',
+    logo: '/games/vrising/logo-f.png',
+    keyart: '/games/vrising/keyart.webp',
   },
 };
 

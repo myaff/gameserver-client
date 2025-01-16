@@ -4,7 +4,7 @@ import type { BackupDTO, WorldDTO } from '@/model/game.model';
 import type { GameLastSession } from '@/model/server.model';
 import { GlobalAlertsKey } from '@/model/symbols';
 import type { GameService } from '@/services/game.service';
-import { type PropType, defineProps, ref, computed, watch, inject, watchEffect } from 'vue';
+import { type PropType, defineProps, ref, computed, onBeforeUnmount, inject, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -126,6 +126,28 @@ async function onWorldAdded() {
   await getLastSession();
   activeWorldName.value = '';
 }
+async function onResotred(worldName: string) {
+  if (worldName !== lastSession.value?.worldName) {
+    checkUpdatedLastSession();
+  } else await props.service.getLastSession();
+}
+const timerId = ref<number | null>(null);
+const MAX_TRYES = 10;
+function checkUpdatedLastSession(tryNumber = 0) {
+  if (!props.service) return;
+  if (timerId.value) clearTimeout(timerId.value);
+  const prev = lastSession.value;
+  getLastSession().then(() => {
+    if (lastSession.value === prev && tryNumber < MAX_TRYES) {
+      timerId.value = window.setTimeout(() => {
+        checkUpdatedLastSession(tryNumber + 1);
+      }, 5000 * tryNumber);
+    } else if (timerId.value) clearTimeout(timerId.value);
+  });
+}
+onBeforeUnmount(() => {
+  if (timerId.value) clearTimeout(timerId.value);
+})
 </script>
 
 <template>
@@ -178,7 +200,7 @@ async function onWorldAdded() {
                 :backup="item.raw"
                 :service="service"
                 @comment="showComment(item.raw.saveName, item.raw.comment)"
-                @restore="() => service.getLastSession()"
+                @restore="(worldName) => onResotred(worldName)"
                 @remove="(worldName) => getBackups(worldName)"
               />
             </template>

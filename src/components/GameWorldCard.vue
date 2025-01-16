@@ -149,7 +149,7 @@ const isCommentHovered = ref(false);
       </v-btn>
     </div>
 
-    <v-dialog v-model="isDeleteActive" width="auto" max-width="600">
+    <v-dialog v-model="isDeleteActive" width="auto" max-width="600" scrim="#000">
       <v-card
         prepend-icon="mdi-alert-circle"
         :title="t('delete.title')"
